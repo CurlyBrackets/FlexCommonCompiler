@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{832DC189-0599-437E-B5AA-3547BE9AFBB6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compiler2</RootNamespace>
+    <AssemblyName>Compiler2</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0659,0661</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>0659,0661</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.1.0\lib\dotnet5.2\System.Reflection.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\DummyNode.cs" />
+    <Compile Include="AST\Expression.cs" />
+    <Compile Include="AST\Expressions\Addition.cs" />
+    <Compile Include="AST\Expressions\And.cs" />
+    <Compile Include="AST\Expressions\AnonymousFunction.cs" />
+    <Compile Include="AST\Expressions\AnonymousInitializer.cs" />
+    <Compile Include="AST\Expressions\ArrayCreation.cs" />
+    <Compile Include="AST\Expressions\As.cs" />
+    <Compile Include="AST\Expressions\Assignment.cs" />
+    <Compile Include="AST\Expressions\Await.cs" />
+    <Compile Include="AST\Expressions\BitwiseAnd.cs" />
+    <Compile Include="AST\Expressions\BitwiseNegation.cs" />
+    <Compile Include="AST\Expressions\BitwiseOr.cs" />
+    <Compile Include="AST\Expressions\BitwiseXor.cs" />
+    <Compile Include="AST\Expressions\BooleanExpression.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentAdd.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentBitwiseOr.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentBitwiseXor.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentDivision.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentMultiply.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentShiftLeft.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentShiftRight.cs" />
+    <Compile Include="AST\Expressions\CompoundAssignmentSubtract.cs" />
+    <Compile Include="AST\Expressions\CompundAssignmentBitwiseAnd.cs" />
+    <Compile Include="AST\Expressions\CompundAssignmentRemainder.cs" />
+    <Compile Include="AST\Expressions\DefaultValue.cs" />
+    <Compile Include="AST\Expressions\Division.cs" />
+    <Compile Include="AST\Expressions\Equal.cs" />
+    <Compile Include="AST\Expressions\GreaterThan.cs" />
+    <Compile Include="AST\Expressions\GreaterThanEqual.cs" />
+    <Compile Include="AST\Expressions\Identity.cs" />
+    <Compile Include="AST\Expressions\IndexerAccess.cs" />
+    <Compile Include="AST\Expressions\Is.cs" />
+    <Compile Include="AST\Expressions\LessThan.cs" />
+    <Compile Include="AST\Expressions\LessThanEqual.cs" />
+    <Compile Include="AST\Expressions\LogicalNegation.cs" />
+    <Compile Include="AST\Expressions\MemberAccess.cs" />
+    <Compile Include="AST\Expressions\MethodInvocation.cs" />
+    <Compile Include="AST\Expressions\Multiplication.cs" />
+    <Compile Include="AST\Expressions\NotEqual.cs" />
+    <Compile Include="AST\Expressions\NullCoalesce.cs" />
+    <Compile Include="AST\Expressions\NumericalNegation.cs" />
+    <Compile Include="AST\Expressions\ObjectCreation.cs" />
+    <Compile Include="AST\Expressions\ObjectCreationInitializer.cs" />
+    <Compile Include="AST\Expressions\Or.cs" />
+    <Compile Include="AST\Expressions\PostDecement.cs" />
+    <Compile Include="AST\Expressions\PostIncrement.cs" />
+    <Compile Include="AST\Expressions\PreDecement.cs" />
+    <Compile Include="AST\Expressions\PreIncrement.cs" />
+    <Compile Include="AST\Expressions\Remainder.cs" />
+    <Compile Include="AST\Expressions\ShiftLeft.cs" />
+    <Compile Include="AST\Expressions\ShiftRight.cs" />
+    <Compile Include="AST\Expressions\Subtraction.cs" />
+    <Compile Include="AST\Expressions\Ternary.cs" />
+    <Compile Include="AST\Expressions\TypeConversion.cs" />
+    <Compile Include="AST\Expressions\Typeof.cs" />
+    <Compile Include="AST\INode.cs" />
+    <Compile Include="AST\Statement.cs" />
+    <Compile Include="AST\Statements\Block.cs" />
+    <Compile Include="AST\Statements\Branch.cs" />
+    <Compile Include="AST\Statements\Break.cs" />
+    <Compile Include="AST\Statements\Catch.cs" />
+    <Compile Include="AST\Statements\Declaration.cs" />
+    <Compile Include="AST\Statements\DoWhile.cs" />
+    <Compile Include="AST\Statements\ExpressionStatement.cs" />
+    <Compile Include="AST\Statements\Case.cs" />
+    <Compile Include="AST\Statements\For.cs" />
+    <Compile Include="AST\Statements\Foreach.cs" />
+    <Compile Include="AST\Statements\Goto.cs" />
+    <Compile Include="AST\Statements\Jump.cs" />
+    <Compile Include="AST\Statements\Lock.cs" />
+    <Compile Include="AST\Statements\Loop.cs" />
+    <Compile Include="AST\Statements\Return.cs" />
+    <Compile Include="AST\Statements\Throw.cs" />
+    <Compile Include="AST\Statements\Try.cs" />
+    <Compile Include="AST\Statements\Using.cs" />
+    <Compile Include="AST\Statements\While.cs" />
+    <Compile Include="AST\Statements\Yield.cs" />
+    <Compile Include="CompilerSettings.cs" />
+    <Compile Include="Compiler\Addresser.cs" />
+    <Compile Include="Compiler\AddressIndependentThing.cs" />
+    <Compile Include="Compiler\Binary\Amd64Emitter.cs" />
+    <Compile Include="Compiler\Binary\InstructionEmitter.cs" />
+    <Compile Include="Compiler\Binary\JumpTarget.cs" />
+    <Compile Include="Compiler\IntermediateProgram.cs" />
+    <Compile Include="Dummy\DummyGenerator.cs" />
+    <Compile Include="Compiler\ESectionFlags.cs" />
+    <Compile Include="Compiler\Executables\ElfWriter.cs" />
+    <Compile Include="Compiler\Executables\ExecutableWriter.cs" />
+    <Compile Include="Compiler\Executables\PeWriter.cs" />
+    <Compile Include="Compiler\Executables\ResourceSectionEmitter.cs" />
+    <Compile Include="Compiler\ExternalResolver\ExternalResolver.cs" />
+    <Compile Include="Compiler\ExternalResolver\WindowsResolver.cs" />
+    <Compile Include="Compiler\FinalProgram.cs" />
+    <Compile Include="Compiler\PhysicalAddresser.cs" />
+    <Compile Include="Compiler\Section.cs" />
+    <Compile Include="Compiler\SectionOrderer.cs" />
+    <Compile Include="CompileStage.cs" />
+    <Compile Include="Dummy\GenericIsaGenerator.cs" />
+    <Compile Include="Parser\CIL\CilParser.cs" />
+    <Compile Include="Parser\CIL\Extensions.cs" />
+    <Compile Include="Parser\CIL\ILMethodParser.cs" />
+    <Compile Include="Parser\CIL\ILReader.cs" />
+    <Compile Include="Parser\CIL\InspectableAssembly.cs" />
+    <Compile Include="Parser\CIL\OpCode.cs" />
+    <Compile Include="Parser\CIL\ParseContext.cs" />
+    <Compile Include="Parser\CIL\ParseTarget.cs" />
+    <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\Text\TextParser.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Program\Class.cs" />
+    <Compile Include="Program\Constant.cs" />
+    <Compile Include="Program\EElementType.cs" />
+    <Compile Include="Program\Element.cs" />
+    <Compile Include="Program\ElementType.cs" />
+    <Compile Include="Program\EMethodFlags.cs" />
+    <Compile Include="Program\Field.cs" />
+    <Compile Include="Program\FieldSignature.cs" />
+    <Compile Include="Program\GenericSignature.cs" />
+    <Compile Include="Program\IndirectValue.cs" />
+    <Compile Include="Program\LValue.cs" />
+    <Compile Include="Program\Method.cs" />
+    <Compile Include="Program\MethodSignature.cs" />
+    <Compile Include="Program\Pointer.cs" />
+    <Compile Include="Program\Program.cs" />
+    <Compile Include="Program\Variable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Extenstions.cs" />
+    <Compile Include="Utils\SparseList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Stages.docx" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

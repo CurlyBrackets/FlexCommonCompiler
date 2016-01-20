@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Compiler2.Program
+{
+    abstract class LValue
+    {
+        public abstract ElementType ResolveType();
+    }
+}
