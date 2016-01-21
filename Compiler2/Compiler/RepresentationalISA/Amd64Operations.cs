@@ -15,6 +15,8 @@ namespace Compiler2.Compiler.RepresentationalISA
         Divide =        0x00000008,
         Move =          0x00000010,
         LoadAddress =   0x00000020,
+        Call =          0x00000040,
+        Return =        0x00000080,
         LargeOperand =  0x01000000
     }
 }

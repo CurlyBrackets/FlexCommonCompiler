@@ -60,6 +60,10 @@ namespace Compiler2.Dummy
             ret.Functions.Add("_start", GenerateStart());
             ret.Functions.Add("Program::main", GenerateMain());
 
+            ret.Functions.Add("Program::exit", GenerateExit());
+            ret.Functions.Add("Program::GetStdHandle", GenerateGetStdHandle());
+            ret.Functions.Add("Program::WriteFile", GenerateWriteFile());
+
             return ret;
         }
 
@@ -68,35 +72,88 @@ namespace Compiler2.Dummy
             return new List<RepresentationalBase<Amd64Operation>>()
             {
                 // subq rsp, 38h
-                new BinaryOperation<Amd64Operation>(
+                 OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.LargeOperand | Amd64Operation.Subtract,
-                    new RegisterOperand(OperandType.StackRegister, OperandSize.QWord),
-                    new ImmediateOperand(OperandSize.Byte, 0x38)),
+                    OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                    OperandFactory.Instance.Immediate(OperandSize.Byte, 0x38)),
 
                 // movq [rsp+20h], 0
-                new BinaryOperation<Amd64Operation>(
+                 OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.LargeOperand | Amd64Operation.Move,
-                    new MemoryOperand(OperandSize.QWord,
-                        new OffsetOperand(
-                            new RegisterOperand(OperandType.StackRegister, OperandSize.QWord),
-                            new ImmediateOperand(OperandSize.Byte, 0x20))),
-                    new ImmediateOperand(OperandSize.DWord, 0)),
+                    OperandFactory.Instance.Memory(OperandSize.QWord,
+                        OperandFactory.Instance.Offset(
+                            OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                            OperandFactory.Instance.Immediate(OperandSize.Byte, 0x20))),
+                    OperandFactory.Instance.Immediate(OperandSize.DWord, 0)),
 
                 // leaq rax, [rsp+20h]
-                new BinaryOperation<Amd64Operation>(
+                 OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.LargeOperand | Amd64Operation.LoadAddress,
-                    new RegisterOperand(OperandType.ReturnRegister, OperandSize.QWord),
-                    new MemoryOperand(OperandSize.QWord,
-                        new OffsetOperand(
-                            new RegisterOperand(OperandType.StackRegister, OperandSize.QWord),
-                            new ImmediateOperand(OperandSize.Byte, 0x20)))),
+                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord),
+                    OperandFactory.Instance.Memory(OperandSize.QWord,
+                        OperandFactory.Instance.Offset(
+                            OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                            OperandFactory.Instance.Immediate(OperandSize.Byte, 0x20)))),
                 
                 // movq [rsp+0x28], rax
+                 OperationFactory<Amd64Operation>.Instance.Binary(
+                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    OperandFactory.Instance.Memory(OperandSize.QWord,
+                        OperandFactory.Instance.Offset(
+                            OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                            OperandFactory.Instance.Immediate(OperandSize.Byte, 0x28))),
+                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord)),
 
+                // movq rcx, rax
+                 OperationFactory<Amd64Operation>.Instance.Binary(
+                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 0),
+                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord)),
+
+                // call main
+                OperationFactory<Amd64Operation>.Instance.Unary(
+                    Amd64Operation.Call,
+                    OperandFactory.Instance.Address(OperandSize.DWord, "Program::main")),
+
+                // mov ecx, eax (pass return value to exit
+                 OperationFactory<Amd64Operation>.Instance.Binary(
+                    Amd64Operation.Move,
+                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.DWord),
+                    OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.DWord)),
+
+                // call exit
+                OperationFactory<Amd64Operation>.Instance.Unary(
+                    Amd64Operation.Call,
+                    OperandFactory.Instance.Address(OperandSize.DWord, "Program::exit")),
+
+                // add rsp,0x38
+                OperationFactory<Amd64Operation>.Instance.Binary(
+                    Amd64Operation.Add | Amd64Operation.LargeOperand,
+                    OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                    OperandFactory.Instance.Immediate(OperandSize.Byte, 0x38)),
+
+                // ret
+                OperationFactory<Amd64Operation>.Instance.Nullary(
+                    Amd64Operation.Return)
             };
         }
 
         private Function GenerateMain()
+        {
+            return null;
+        }
+
+        private Function GenerateExit()
+        {
+            return null;
+        }
+
+        private Function GenerateGetStdHandle()
+        {
+            return null;
+        }
+
+        private Function GenerateWriteFile()
         {
             return null;
         }

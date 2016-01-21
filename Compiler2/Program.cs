@@ -11,6 +11,7 @@ using System.Reflection.PortableExecutable;
 using Compiler2.Compiler.ExternalResolver;
 using Compiler2.Compiler.Binary;
 using Compiler2.Compiler.Dummy;
+using Compiler2.Compiler.RepresentationalISA;
 
 namespace Compiler2
 {
@@ -77,8 +78,13 @@ namespace Compiler2
                 Output = "aout.exe"
             };
 
-            var compiler = GetCompiler(settings);
-            compiler.Process(null);            
+            var test = new Dummy.RepIsaGenerator(settings);
+            test.Process(null);
+
+            var stage = OperationFactory<Amd64Operation>.Instance;
+
+            //var compiler = GetCompiler(settings);
+            //compiler.Process(null);            
         }
 
         

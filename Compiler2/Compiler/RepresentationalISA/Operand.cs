@@ -19,7 +19,8 @@ namespace Compiler2.Compiler.RepresentationalISA
         InstructionRegister=0x80,
         Offset =            0x100,
         ArgumentRegister =  0x200,
-        ReturnRegister =    0x400
+        ReturnRegister =    0x400,
+        Address =           0x800
     }
 
     enum OperandSize
@@ -97,6 +98,17 @@ namespace Compiler2.Compiler.RepresentationalISA
             : base(type, size)
         {
             Index = registerIndex;
+        }
+    }
+
+    class AddressOperand : Operand
+    {
+        public string Label { get; private set; }
+
+        public AddressOperand(OperandSize size, string label)
+            : base(OperandType.Immediate | OperandType.Address, size)
+        {
+            Label = label;
         }
     }
 }
