@@ -13,5 +13,10 @@ namespace Compiler2.Compiler.RepresentationalISA
         {
 
         }
+
+        public override T2 Accept<T2>(IRepresentationalVisitor<T, T2> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

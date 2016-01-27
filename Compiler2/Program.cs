@@ -19,18 +19,23 @@ namespace Compiler2
     {
         private static ICompileStage<object> GetCompiler(CompilerSettings settings)
         {
-            var instructionEmitter = GetEmitter(settings);
+            //var instructionEmitter = GetEmitter(settings);
 
-            var dummyGenerator = new IsaGenerator(settings);
-            var exernalResolver = settings.ExecutableType == ExecutableType.PortableExecutable ? new WindowsResolver(settings, instructionEmitter) : null;
+            var instructionEmitter = new Amd64Emitter();
+
+            var repisagen = new Dummy.RepIsaGenerator(settings);
+
+            var binaryconverter = new BinaryConverter<Amd64Operation>(settings, instructionEmitter);
+            var externalResolver = settings.ExecutableType == ExecutableType.PortableExecutable ? new WindowsResolver<Amd64Operation>(settings, instructionEmitter) : null;
             var orderer = new SectionOrderer(settings);
             var addresser = new Addresser(settings);
             var physAddress = new PhysicalAddresser(settings);
             var exeWriter = settings.ExecutableType == ExecutableType.PortableExecutable ? new PeWriter(settings) : null;
 
-            dummyGenerator.Next(exernalResolver);
+            repisagen.Next(binaryconverter);
+            binaryconverter.Next(externalResolver);
 
-            var before = exernalResolver;
+            var before = externalResolver;
             var after = orderer;
 
             /*if(settings.ExecutableType == ExecutableType.PortableExecutable)
@@ -46,10 +51,10 @@ namespace Compiler2
             addresser.Next(physAddress);
             physAddress.Next(exeWriter);
 
-            return dummyGenerator;
+            return repisagen;
         }
 
-        private static InstructionEmitter GetEmitter(CompilerSettings settings)
+        /*private static InstructionEmitter GetEmitter<T>(CompilerSettings settings)
         {
             switch (settings.ISA)
             {
@@ -59,7 +64,7 @@ namespace Compiler2
                 default:
                     return null;
             }
-        }
+        }*/
 
         static void Main(string[] args)
         {
@@ -78,13 +83,8 @@ namespace Compiler2
                 Output = "aout.exe"
             };
 
-            var test = new Dummy.RepIsaGenerator(settings);
-            test.Process(null);
-
-            var stage = OperationFactory<Amd64Operation>.Instance;
-
-            //var compiler = GetCompiler(settings);
-            //compiler.Process(null);            
+            var compiler = GetCompiler(settings);
+            compiler.Process(null);            
         }
 
         

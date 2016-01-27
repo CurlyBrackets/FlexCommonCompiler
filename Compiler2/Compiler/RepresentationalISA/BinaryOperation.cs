@@ -24,5 +24,10 @@ namespace Compiler2.Compiler.RepresentationalISA
             Left = left;
             Right = right;
         }
+
+        public override T2 Accept<T2>(IRepresentationalVisitor<T, T2> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

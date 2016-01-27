@@ -52,5 +52,13 @@ namespace Compiler2.Compiler.RepresentationalISA
             m_binaryMap[operation, left, right] = ret;
             return ret;
         }
+
+        public SpecialOperation<T> Special(T operation, params object[] args)
+        {
+            // Do this at some point
+
+
+            throw new Exception("Special operation not matched");
+        }
     }
 }

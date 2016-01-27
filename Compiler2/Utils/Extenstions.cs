@@ -49,5 +49,14 @@ namespace Compiler2.Utils
         {
             collection.AddMany((IEnumerable<IEnumerable<T>>)many);
         }
+
+        public static bool IsCombo(this Enum e, Enum other)
+        {
+            if (e.GetType().IsEquivalentTo(other.GetType()))
+                throw new Exception("Bad enum types");
+
+            ulong v1 = Convert.ToUInt64(e), v2 = Convert.ToUInt64(other);
+            return (v1 & v2) == v1;
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Compiler2.Compiler.ExternalResolver
         things to figure out
             -multiple imports?
     */
-    class WindowsResolver : ExternalResolver
+    class WindowsResolver<T> : ExternalResolver
     {
         class ImportEntry
         {
@@ -70,9 +70,9 @@ namespace Compiler2.Compiler.ExternalResolver
         private const string NameLabel = "::ModuleName";
         private const string EntryJoin = "@";
 
-        private InstructionEmitter m_emitter;
+        private InstructionEmitter<T> m_emitter;
         
-        public WindowsResolver(CompilerSettings settings, InstructionEmitter instructionEmitter)
+        public WindowsResolver(CompilerSettings settings, InstructionEmitter<T> instructionEmitter)
             : base(settings)
         {
             m_exportedSymbols = new Dictionary<string, IDictionary<string, int>>();
