@@ -50,6 +50,11 @@ namespace Compiler2.Compiler
 
             return true;
         }
+
+        public static implicit operator AddressIndependentByte(byte b)
+        {
+            return AIF.Instance.Byte(b);
+        }
     }
 
     class AddressIndependentLabel : AddressIndependentThing
@@ -169,5 +174,7 @@ namespace Compiler2.Compiler
 
             return ret;
         }
+
+        
     }
 }

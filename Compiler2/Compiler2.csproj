@@ -47,6 +47,7 @@
       <HintPath>..\packages\System.Reflection.Metadata.1.1.0\lib\dotnet5.2\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\DummyNode.cs" />
@@ -131,10 +132,19 @@
     <Compile Include="Compiler\Addresser.cs" />
     <Compile Include="Compiler\AddressIndependentFactory.cs" />
     <Compile Include="Compiler\AddressIndependentThing.cs" />
-    <Compile Include="Compiler\Binary\Amd64Emitter.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\BinaryInstruction.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\Emitter.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\EncodingPosition.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\Operand.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\OperandPosition.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\OperandSize.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\OperandType.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\StaticField.cs" />
     <Compile Include="Compiler\Binary\BinaryConverter.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\Instruction.cs" />
     <Compile Include="Compiler\Binary\InstructionEmitter.cs" />
     <Compile Include="Compiler\Binary\JumpTarget.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\TemplateLoader.cs" />
     <Compile Include="Compiler\IntermediateProgram.cs" />
     <Compile Include="Compiler\RepresentationalISA\Amd64Operations.cs" />
     <Compile Include="Compiler\RepresentationalISA\Armv7aOperations.cs" />
@@ -191,16 +201,22 @@
     <Compile Include="Program\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Extenstions.cs" />
+    <Compile Include="Utils\FiveKeyDictionary.cs" />
     <Compile Include="Utils\MultiKeyDictionary.cs" />
     <Compile Include="Utils\SingletonFactoryBase.cs" />
     <Compile Include="Utils\SparseList.cs" />
+    <Compile Include="Utils\TypeSwitch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Stages.docx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Compiler\Assembler\Amd64\Template.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

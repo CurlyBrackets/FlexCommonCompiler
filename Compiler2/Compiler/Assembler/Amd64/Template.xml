@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Instructions>
+  <!-- OpCode 0x83 -->
+  <Set>
+    <BinaryInstruction>
+      <Operation>Subtract</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="5" />
+    </BinaryInstruction>
+  </Set>
+</Instructions>

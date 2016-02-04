@@ -21,7 +21,7 @@ namespace Compiler2
         {
             //var instructionEmitter = GetEmitter(settings);
 
-            var instructionEmitter = new Amd64Emitter();
+            var instructionEmitter = new Compiler.Assembler.Amd64.Emitter();
 
             var repisagen = new Dummy.RepIsaGenerator(settings);
 
