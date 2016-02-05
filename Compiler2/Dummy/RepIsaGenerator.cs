@@ -41,13 +41,13 @@ namespace Compiler2.Dummy
             {
                 // subq rsp, 38h
                  OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Subtract,
+                    Amd64Operation.Subtract,
                     OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
                     OperandFactory.Instance.Immediate(OperandSize.Byte, 0x38)),
 
                 // movq [rsp+20h], 0
                  OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                   Amd64Operation.Move,
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
                             OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
@@ -56,7 +56,7 @@ namespace Compiler2.Dummy
 
                 // leaq rax, [rsp+20h]
                  OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.LoadAddress,
+                    Amd64Operation.LoadAddress,
                     OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord),
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
@@ -65,7 +65,7 @@ namespace Compiler2.Dummy
                 
                 // movq [rsp+0x28], rax
                  OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
                             OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
@@ -74,7 +74,7 @@ namespace Compiler2.Dummy
 
                 // movq rcx, rax
                  OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 0),
                     OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord)),
 
@@ -96,7 +96,7 @@ namespace Compiler2.Dummy
 
                 // add rsp,0x38
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.Add | Amd64Operation.LargeOperand,
+                    Amd64Operation.Add,
                     OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
                     OperandFactory.Instance.Immediate(OperandSize.Byte, 0x38)),
 
@@ -112,7 +112,7 @@ namespace Compiler2.Dummy
             { 
                 // mov [rsp + 8], rcx
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
                             OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
@@ -121,7 +121,7 @@ namespace Compiler2.Dummy
 
                 // sub rsp, 0x48
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Subtract,
+                    Amd64Operation.Subtract,
                     OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
                     OperandFactory.Instance.Immediate(OperandSize.Byte, 0x48)),
 
@@ -138,7 +138,7 @@ namespace Compiler2.Dummy
 
                 // mov [rsp + 30h], rax
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
                             OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
@@ -147,7 +147,7 @@ namespace Compiler2.Dummy
 
                 // mov [rsp + 20h], 0
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Memory(OperandSize.QWord,
                         OperandFactory.Instance.Offset(
                             OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
@@ -168,13 +168,13 @@ namespace Compiler2.Dummy
 
                 // lea rdx, [string]
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.LoadAddress,
+                    Amd64Operation.LoadAddress,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 1),
                     OperandFactory.Instance.Address(OperandSize.QWord, "Constant::String::0")),
 
                 // mov rcx, rax
                 OperationFactory<Amd64Operation>.Instance.Binary(
-                    Amd64Operation.LargeOperand | Amd64Operation.Move,
+                    Amd64Operation.Move,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 0),
                     OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.QWord)),
 

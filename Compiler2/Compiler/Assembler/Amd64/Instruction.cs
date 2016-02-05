@@ -20,17 +20,17 @@ namespace Compiler2.Compiler.Assembler.Amd64
             //Fields = new List<StaticField>();
         }
 
-        public virtual byte[] Encode(BinaryOperation<Amd64Operation> op)
+        public virtual IList<AddressIndependentThing> Encode(BinaryOperation<Amd64Operation> op)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual byte[] Encode(UnaryOperation<Amd64Operation> op)
+        public virtual IList<AddressIndependentThing> Encode(UnaryOperation<Amd64Operation> op)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual byte[] Encode(NullaryOperation<Amd64Operation> op)
+        public virtual IList<AddressIndependentThing> Encode(NullaryOperation<Amd64Operation> op)
         {
             throw new InvalidOperationException();
         }
@@ -77,6 +77,38 @@ namespace Compiler2.Compiler.Assembler.Amd64
             }
 
             throw new Exception("Unexpected register");
+        }
+
+        protected IList<AddressIndependentThing> EncodeImmediate(RISA.Operand op)
+        {
+            var immop = op as ImmediateOperand;
+            var addrop = op as AddressOperand;
+            if (immop != null)
+            {
+                byte[] bytes = null;
+                switch (op.Size)
+                {
+                    case OperandSize.Byte:
+                        bytes = new byte[1] { (byte)immop.Value };
+                        break;
+                    case OperandSize.Word:
+                        bytes = BitConverter.GetBytes((short)immop.Value);
+                        break;
+                    case OperandSize.DWord:
+                        bytes = BitConverter.GetBytes((int)immop.Value);
+                        break;
+                    case OperandSize.QWord:
+                        bytes = BitConverter.GetBytes(immop.Value);
+                        break;
+                }
+                return bytes.Convert();
+            }
+            else if (addrop != null)
+            {
+                return new List<AddressIndependentThing>() { AIF.Instance.Address(addrop.Label) };
+            }
+
+            return null;
         }
     }
 }

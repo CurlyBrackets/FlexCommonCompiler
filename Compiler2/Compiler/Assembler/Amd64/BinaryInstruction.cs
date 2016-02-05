@@ -14,6 +14,9 @@ namespace Compiler2.Compiler.Assembler.Amd64
         public Operand Left { get; private set; }
         public Operand Right { get; private set; }
 
+        private IList<AddressIndependentThing> delayAdd = null;
+
+
         public BinaryInstruction(byte[] opcode, Operand left, Operand right)
             : base(opcode)
         {
@@ -21,52 +24,39 @@ namespace Compiler2.Compiler.Assembler.Amd64
             Right = right;
         }
 
-        public override byte[] Encode(BinaryOperation<Amd64Operation> op)
+        public override IList<AddressIndependentThing> Encode(BinaryOperation<Amd64Operation> op)
         {
-            var ret = new List<byte>();
+            delayAdd = null;
+            var ret = new List<AddressIndependentThing>();
 
             if (RequiresRex(op))
-                ret.Add(GenerateRex(op));
+                ret.Add(AIF.Instance.Byte(GenerateRex(op)));
 
-            ret.AddRange(OpCode);
+            ret.AddRange(OpCode.Convert());
 
             byte modrm = 0, sib = 0;
             foreach (var field in Fields)
                 PutValue(ref modrm, ref sib, field.Position, field.Value);
 
-            if (Left.Type == OperandType.Register)
-                PutValue(ref modrm, ref sib, Left.EncodingPosition, RegisterIndex(op.Left));
+            ProcessOp(ref modrm, ref sib, Left, op.Left);
+            ProcessOp(ref modrm, ref sib, Right, op.Right);
 
             if (Right.Type == OperandType.Register)
                 PutValue(ref modrm, ref sib, Right.EncodingPosition, RegisterIndex(op.Right));
 
-            ret.Add(modrm);
-            if ((modrm & 0xC0) != 0xC0)
-                ret.Add(sib);
+            ret.Add(AIF.Instance.Byte(modrm));
+            if ((modrm & 0xC0) != 0xC0 && (modrm & 7) == 4)
+                ret.Add(AIF.Instance.Byte(sib));
+
+            if (delayAdd != null)
+                ret.AddRange(delayAdd);
 
             if(Right.Type == OperandType.Immediate)
             {
-                var immop = op.Right as RISA.ImmediateOperand;
-                byte[] bytes = null;
-                switch(Right.Size)
-                {
-                    case OperandSize.S8:
-                        bytes = BitConverter.GetBytes((byte)immop.Value);
-                        break;
-                    case OperandSize.S16:
-                        bytes = BitConverter.GetBytes((short)immop.Value);
-                        break;
-                    case OperandSize.S32:
-                        bytes = BitConverter.GetBytes((int)immop.Value);
-                        break;
-                    case OperandSize.S64:
-                        bytes = BitConverter.GetBytes(immop.Value);
-                        break;
-                }
-                ret.AddRange(bytes);
+                ret.AddRange(EncodeImmediate(op.Right));
             }
 
-            return ret.ToArray();
+            return ret;
         }
 
         #region Rex
@@ -80,7 +70,7 @@ namespace Compiler2.Compiler.Assembler.Amd64
 
         private bool IsLargeOperand(RISA.Operand op)
         {
-            return op.Size == RISA.OperandSize.QWord || op.Size == RISA.OperandSize.OWord;
+            return op.Size == OperandSize.QWord || op.Size == OperandSize.OWord;
         }
 
         private bool IsExtendedRegister(RISA.Operand op)
@@ -157,5 +147,71 @@ namespace Compiler2.Compiler.Assembler.Amd64
         }
 
         #endregion
+
+        private void ProcessOp(ref byte modrm, ref byte sib, Operand localOperand, RISA.Operand op)
+        {
+            if (localOperand.Type == OperandType.Register)
+                PutValue(ref modrm, ref sib, localOperand.EncodingPosition, RegisterIndex(op));
+            else if (localOperand.Type == OperandType.Memory)
+            {
+                var mop = op as MemoryOperand;
+                var registerOffset = mop.Address as RegisterOperand;
+                var offsetOffset = mop.Address as OffsetOperand;
+
+                if (registerOffset != null)
+                {
+                    PutValue(ref modrm, ref sib, EncodingPosition.Mod, 0);
+                    byte regIndex = RegisterIndex(registerOffset);
+
+                    switch (regIndex & 7)
+                    {
+                        case 4: //SP/R12
+                            PutValue(ref modrm, ref sib, EncodingPosition.RM, regIndex);
+                            PutValue(ref modrm, ref sib, EncodingPosition.Index, regIndex);
+                            PutValue(ref modrm, ref sib, EncodingPosition.Base, regIndex);
+                            break;
+                        case 5: // BP/R13
+                            throw new Exception("this is weird");
+                        default:
+                            // check for scale, indexer, etc
+                            PutValue(ref modrm, ref sib, EncodingPosition.RM, regIndex);
+                            break;
+                    }
+                }
+                else if (offsetOffset != null)
+                {
+                    byte regIndex = RegisterIndex(offsetOffset.Register);
+                    switch (regIndex & 7)
+                    {
+                        case 4: //SP/R12
+                            PutValue(ref modrm, ref sib, EncodingPosition.RM, regIndex);
+                            PutValue(ref modrm, ref sib, EncodingPosition.Index, (byte)(regIndex & 7));
+                            PutValue(ref modrm, ref sib, EncodingPosition.Base, regIndex);
+                            break;
+                        case 5: // BP/R13
+                            throw new Exception("this is weird");
+                        default:
+                            // check for scale, indexer, etc
+                            PutValue(ref modrm, ref sib, EncodingPosition.RM, regIndex);
+                            break;
+                    }
+
+                    if (offsetOffset.Immediate.Size == OperandSize.S8)
+                    {
+                        PutValue(ref modrm, ref sib, EncodingPosition.Mod, 1);
+                        delayAdd = EncodeImmediate(offsetOffset.Immediate);
+                    }
+                    else if (offsetOffset.Immediate.Size == OperandSize.S32)
+                    {
+                        PutValue(ref modrm, ref sib, EncodingPosition.Mod, 2);
+                        delayAdd = EncodeImmediate(offsetOffset.Immediate);
+                    }
+                    else
+                        throw new Exception("Invalid memory offset size");
+                }
+            }
+        }
+
+        
     }
 }

@@ -13,7 +13,7 @@ namespace Compiler2.Compiler.RepresentationalISA
         public UnaryOperation(T op, Operand target)
             : base(op)
         {
-
+            Target = target;
         }
 
         public override T2 Accept<T2>(IRepresentationalVisitor<T, T2> visitor)

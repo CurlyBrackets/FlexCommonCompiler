@@ -3,6 +3,46 @@
   <!-- OpCode 0x83 -->
   <Set>
     <BinaryInstruction>
+      <Operation>Add</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="0" />
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>Or</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="1" />
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>AddCarry</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="2" />
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>SubtractBorrow</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="3" />
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>And</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="4" />
+    </BinaryInstruction>
+    <BinaryInstruction>
       <Operation>Subtract</Operation>
       <OpCode>83</OpCode>
       <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
@@ -10,5 +50,68 @@
       <StaticField EncodingPosition="Mod" Value="3" />
       <StaticField EncodingPosition="Reg" Value="5" />
     </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>ExclusiveOr</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="6" />
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>Compare</Operation>
+      <OpCode>83</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Immediate" Size="8" />
+      <StaticField EncodingPosition="Mod" Value="3" />
+      <StaticField EncodingPosition="Reg" Value="7" />
+    </BinaryInstruction>
+  </Set>
+  <BinaryInstruction>
+    <Operation>Move</Operation>
+    <OpCode>C7</OpCode>
+    <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+    <Operand Position="Right" Type="Immediate" Size="16|32" />
+    <StaticField EncodingPosition="Mod" Value="3" />
+    <StaticField EncodingPosition="Reg" Value="0" />
+  </BinaryInstruction>
+  <BinaryInstruction>
+    <Operation>Move</Operation>
+    <OpCode>C7</OpCode>
+    <Operand Position="Left" Type="Memory" Size="16|32|64" EncodingPosition="RM"/>
+    <Operand Position="Right" Type="Immediate" Size="16|32" />
+    <StaticField EncodingPosition="Reg" Value="0" />
+  </BinaryInstruction>
+  <BinaryInstruction>
+    <Operation>LoadAddress</Operation>
+    <OpCode>8D</OpCode>
+    <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="Reg"/>
+    <Operand Position="Right" Type="Memory" Size="8|16|32|64|128" EncodingPosition="RM" />
+  </BinaryInstruction>
+
+  <!-- OpCode 89/8B -->
+  <Set>
+    <BinaryInstruction>
+      <Operation>Move</Operation>
+      <OpCode>8B</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="Reg"/>
+      <Operand Position="Right" Type="Register" Size="16|32|64" EncodingPosition="RM" />
+      <StaticField EncodingPosition="Mod" Value="3"/>
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>Move</Operation>
+      <OpCode>89</OpCode>
+      <Operand Position="Left" Type="Memory" Size="16|32|64" EncodingPosition="RM"/>
+      <Operand Position="Right" Type="Register" Size="16|32|64" EncodingPosition="Reg" />
+    </BinaryInstruction>
+  </Set>
+  
+  <!-- Calls -->
+  <Set>
+    <UnaryInstruction>
+      <Operation>Call</Operation>
+      <OpCode>E8</OpCode>
+      <Operand Type="Immediate" Size="16|32"/>
+    </UnaryInstruction>
   </Set>
 </Instructions>

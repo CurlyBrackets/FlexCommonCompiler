@@ -137,7 +137,8 @@
     <Compile Include="Compiler\Assembler\Amd64\EncodingPosition.cs" />
     <Compile Include="Compiler\Assembler\Amd64\Operand.cs" />
     <Compile Include="Compiler\Assembler\Amd64\OperandPosition.cs" />
-    <Compile Include="Compiler\Assembler\Amd64\OperandSize.cs" />
+    <Compile Include="Compiler\Assembler\Amd64\UnaryInstruction.cs" />
+    <Compile Include="Compiler\OperandSize.cs" />
     <Compile Include="Compiler\Assembler\Amd64\OperandType.cs" />
     <Compile Include="Compiler\Assembler\Amd64\StaticField.cs" />
     <Compile Include="Compiler\Binary\BinaryConverter.cs" />

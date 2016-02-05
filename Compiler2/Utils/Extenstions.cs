@@ -52,7 +52,7 @@ namespace Compiler2.Utils
 
         public static bool IsCombo(this Enum e, Enum other)
         {
-            if (e.GetType().IsEquivalentTo(other.GetType()))
+            if (!e.GetType().IsEquivalentTo(other.GetType()))
                 throw new Exception("Bad enum types");
 
             ulong v1 = Convert.ToUInt64(e), v2 = Convert.ToUInt64(other);

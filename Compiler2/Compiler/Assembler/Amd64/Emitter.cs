@@ -80,20 +80,44 @@ namespace Compiler2.Compiler.Assembler.Amd64
 
         public override IList<AddressIndependentThing> Visit(UnaryOperation<Amd64Operation> op)
         {
-            throw new NotImplementedException();
+            Setup();
+
+            if (!m_loader.UnaryInstructions.ContainsKey(
+                op.Operation,
+                FromRISA(op.Target.Type),
+                op.Target.Size))
+                throw new Exception($"Unary instruction not found: {op.Operation} {FromRISA(op.Target.Type)}[{op.Target.Size}]");
+
+            var inst = m_loader.UnaryInstructions[
+                op.Operation,
+                FromRISA(op.Target.Type),
+                op.Target.Size];
+
+            m_ret.AddRange(inst.Encode(op));
+
+            return Cleanup();
         }
-
-
-
 
         public override IList<AddressIndependentThing> Visit(BinaryOperation<Amd64Operation> op)
         {
             Setup();
 
-            /*if(m_loader.BinaryInstructions.ContainsKey(
+            if(!m_loader.BinaryInstructions.ContainsKey(
                 op.Operation,
-                FromRISA(op.Left.Type),*/
+                FromRISA(op.Left.Type),
+                op.Left.Size,
+                FromRISA(op.Right.Type),
+                op.Right.Size))
+                throw new Exception($"Binary operation not found: {op.Operation} {FromRISA(op.Left.Type)}[{op.Left.Size}], {FromRISA(op.Right.Type)}[{op.Right.Size}]");
 
+            var inst = m_loader.BinaryInstructions[
+                op.Operation,
+                FromRISA(op.Left.Type),
+                op.Left.Size,
+                FromRISA(op.Right.Type),
+                op.Right.Size];
+
+            m_ret.AddRange(inst.Encode(op));
 
             return Cleanup();
         }
@@ -110,7 +134,6 @@ namespace Compiler2.Compiler.Assembler.Amd64
                 case RISA.OperandType.StackRegister:
                     return OperandType.Register;
                 case RISA.OperandType.Immediate:
-                case RISA.OperandType.Offset:
                 case RISA.OperandType.Address:
                     return OperandType.Immediate;
                 case RISA.OperandType.Memory:

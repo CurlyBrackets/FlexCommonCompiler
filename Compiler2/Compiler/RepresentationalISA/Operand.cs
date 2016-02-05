@@ -23,15 +23,6 @@ namespace Compiler2.Compiler.RepresentationalISA
         Address =           0x800
     }
 
-    enum OperandSize
-    {
-        Byte,
-        Word,
-        DWord,
-        QWord,
-        OWord, //oct word, 128bit
-    }
-
     abstract class Operand
     {
         public OperandType Type { get; set; }
@@ -106,7 +97,7 @@ namespace Compiler2.Compiler.RepresentationalISA
         public string Label { get; private set; }
 
         public AddressOperand(OperandSize size, string label)
-            : base(OperandType.Immediate | OperandType.Address, size)
+            : base(OperandType.Address, size)
         {
             Label = label;
         }
