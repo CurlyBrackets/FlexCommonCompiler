@@ -157,6 +157,7 @@ namespace Compiler2.Compiler.Assembler.Amd64
                 var mop = op as MemoryOperand;
                 var registerOffset = mop.Address as RegisterOperand;
                 var offsetOffset = mop.Address as OffsetOperand;
+                var addrOffset = mop.Address as AddressOperand;
 
                 if (registerOffset != null)
                 {
@@ -208,6 +209,12 @@ namespace Compiler2.Compiler.Assembler.Amd64
                     }
                     else
                         throw new Exception("Invalid memory offset size");
+                }
+                else if(addrOffset != null)
+                {
+                    PutValue(ref modrm, ref sib, EncodingPosition.Mod, 0);
+                    PutValue(ref modrm, ref sib, EncodingPosition.RM, 5); // [disp32] maybe?
+                    delayAdd = new List<AddressIndependentThing>() { AIF.Instance.Address(addrOffset.Label, addrOffset.Size == OperandSize.QWord) };
                 }
             }
         }

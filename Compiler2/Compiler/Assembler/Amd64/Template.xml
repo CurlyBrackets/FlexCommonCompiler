@@ -82,6 +82,7 @@
     <Operand Position="Right" Type="Immediate" Size="16|32" />
     <StaticField EncodingPosition="Reg" Value="0" />
   </BinaryInstruction>
+  
   <BinaryInstruction>
     <Operation>LoadAddress</Operation>
     <OpCode>8D</OpCode>
@@ -113,5 +114,21 @@
       <OpCode>E8</OpCode>
       <Operand Type="Immediate" Size="16|32"/>
     </UnaryInstruction>
+  </Set>
+  <!-- XOR -->
+  <Set>
+    <BinaryInstruction>
+      <Operation>ExclusiveOr</Operation>
+      <OpCode>33</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="Reg"/>
+      <Operand Position="Right" Type="Register" Size="16|32|64" EncodingPosition="RM"/>
+      <StaticField EncodingPosition="Mod" Value="3"/>
+    </BinaryInstruction>
+    <BinaryInstruction>
+      <Operation>ExclusiveOr</Operation>
+      <OpCode>33</OpCode>
+      <Operand Position="Left" Type="Register" Size="16|32|64" EncodingPosition="Reg"/>
+      <Operand Position="Right" Type="Memory" Size="16|32|64" EncodingPosition="RM"/>
+    </BinaryInstruction>
   </Set>
 </Instructions>

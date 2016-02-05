@@ -86,8 +86,8 @@ namespace Compiler2.Dummy
                 // mov ecx, eax (pass return value to exit
                  OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.Move,
-                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.DWord),
-                    OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.DWord)),
+                    OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.DWord),
+                    OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.DWord)),
 
                 // call exit
                 OperationFactory<Amd64Operation>.Instance.Unary(
@@ -170,7 +170,8 @@ namespace Compiler2.Dummy
                 OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.LoadAddress,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 1),
-                    OperandFactory.Instance.Address(OperandSize.QWord, "Constant::String::0")),
+                    OperandFactory.Instance.Memory(OperandSize.QWord,
+                        OperandFactory.Instance.Address(OperandSize.DWord, "Constant::String::0"))),
 
                 // mov rcx, rax
                 OperationFactory<Amd64Operation>.Instance.Binary(
@@ -188,6 +189,12 @@ namespace Compiler2.Dummy
                     Amd64Operation.ExclusiveOr,
                     OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.DWord),
                     OperandFactory.Instance.Register(OperandType.ReturnRegister, OperandSize.DWord)),
+
+                // add rsp, 48h
+                OperationFactory<Amd64Operation>.Instance.Binary(
+                    Amd64Operation.Add,
+                    OperandFactory.Instance.Register(OperandType.StackRegister, OperandSize.QWord),
+                    OperandFactory.Instance.Immediate(OperandSize.Byte, 0x48)),
 
                 // ret
                 OperationFactory<Amd64Operation>.Instance.Nullary(Amd64Operation.Return)

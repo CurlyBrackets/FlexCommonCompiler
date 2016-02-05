@@ -133,9 +133,11 @@ namespace Compiler2.Compiler.Assembler.Amd64
                 case RISA.OperandType.ReturnRegister:
                 case RISA.OperandType.StackRegister:
                     return OperandType.Register;
+
                 case RISA.OperandType.Immediate:
                 case RISA.OperandType.Address:
                     return OperandType.Immediate;
+                
                 case RISA.OperandType.Memory:
                     return OperandType.Memory;
                 default:
@@ -146,7 +148,17 @@ namespace Compiler2.Compiler.Assembler.Amd64
 
         public override IList<AddressIndependentThing> Visit(SpecialOperation<Amd64Operation> op)
         {
-            throw new NotImplementedException();
+            var operation = op.Operation & ~Amd64Operation.Special;
+            switch (operation)
+            {
+                case Amd64Operation.Call:
+                    var temp = op as ExternalCallOperation<Amd64Operation>;
+                    return new List<AddressIndependentThing>() {
+                        AIF.Instance.ExternalCall(temp.Name, temp.Module)
+                    };
+                default:
+                    throw new Exception("Unhandled special operation");
+            }
         }
 
         public override IList<AddressIndependentThing> Visit(RepresentationalBase<Amd64Operation> op)
