@@ -172,6 +172,19 @@
     <Compile Include="Compiler\SectionOrderer.cs" />
     <Compile Include="CompileStage.cs" />
     <Compile Include="Dummy\RepIsaGenerator.cs" />
+    <Compile Include="IR\ExpressionFactory.cs" />
+    <Compile Include="IR\StatementFactory.cs" />
+    <Compile Include="IR\Structure\AssignableExpression.cs" />
+    <Compile Include="IR\Structure\AssignStatement.cs" />
+    <Compile Include="IR\Structure\BinaryExpression.cs" />
+    <Compile Include="IR\Structure\Constant.cs" />
+    <Compile Include="IR\Structure\Expression.cs" />
+    <Compile Include="IR\Structure\Operation.cs" />
+    <Compile Include="IR\Structure\Parameter.cs" />
+    <Compile Include="IR\Structure\ReturnStatement.cs" />
+    <Compile Include="IR\Structure\Statement.cs" />
+    <Compile Include="IR\Structure\Temporary.cs" />
+    <Compile Include="IR\Structure\UnaryExpression.cs" />
     <Compile Include="Parser\CIL\CilParser.cs" />
     <Compile Include="Parser\CIL\Extensions.cs" />
     <Compile Include="Parser\CIL\ILMethodParser.cs" />
@@ -218,9 +231,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IR\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
