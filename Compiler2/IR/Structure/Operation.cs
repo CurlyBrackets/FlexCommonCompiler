@@ -26,6 +26,7 @@ namespace Compiler2.IR.Structure
         ShiftLeft,
         ShiftRight,
 
-        Call
+        Call,
+        AddressOf
     }
 }

@@ -83,7 +83,7 @@ namespace Compiler2.Dummy
                     Amd64Operation.Call,
                     OperandFactory.Instance.Address(OperandSize.DWord, "Program::main")),
 
-                // mov ecx, eax (pass return value to exit
+                // mov ecx, eax (pass return value to exit)
                  OperationFactory<Amd64Operation>.Instance.Binary(
                     Amd64Operation.Move,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.DWord),

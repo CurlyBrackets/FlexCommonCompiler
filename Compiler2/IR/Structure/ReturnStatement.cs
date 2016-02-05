@@ -14,5 +14,10 @@ namespace Compiler2.IR.Structure
         {
             Value = value;
         }
+
+        public ReturnStatement()
+        {
+            Value = null;
+        }
     }
 }
