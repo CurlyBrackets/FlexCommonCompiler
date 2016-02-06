@@ -22,5 +22,10 @@ namespace Compiler2.IR.Structure
             Target = target;
             Arguments = args;
         }
+
+        public override T Accept<T>(IRExpressionVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

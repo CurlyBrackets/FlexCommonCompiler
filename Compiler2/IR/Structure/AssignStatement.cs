@@ -16,5 +16,10 @@ namespace Compiler2.IR.Structure
             Destination = dest;
             Source = src;
         }
+
+        public override T Accept<T>(IRStatementVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

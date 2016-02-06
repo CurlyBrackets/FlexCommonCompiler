@@ -16,5 +16,10 @@ namespace Compiler2.IR.Structure
             Operation = op;
             Expression = exp;
         }
+
+        public override T Accept<T>(IRExpressionVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

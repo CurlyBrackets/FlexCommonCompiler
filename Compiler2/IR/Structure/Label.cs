@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    /// <summary>
-    /// Parameter to the method being processed
-    /// </summary>
-    class Parameter : Expression
+    class Label : Expression
     {
-        public int Index { get; private set; }
+        public string Key { get; private set; }
 
-        public Parameter(int index)
+        public Label(string key)
         {
-            Index = index;
+            Key = key;
         }
 
         public override T Accept<T>(IRExpressionVisitor<T> visitor)

@@ -14,5 +14,10 @@ namespace Compiler2.IR.Structure
         {
             Expression = exp;
         }
+
+        public override T Accept<T>(IRStatementVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

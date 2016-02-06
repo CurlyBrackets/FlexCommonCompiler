@@ -13,8 +13,10 @@ namespace Compiler2.IR
         T Visit(Call call);
         T Visit(Constant constant);
         T Visit(FloatConstant constant);
+        T Visit(Label label);
         T Visit(Parameter parameter);
         T Visit(StringConstant constant);
+        T Visit(Temporary temporary);
         T Visit(UnaryExpression expression);
     }
 

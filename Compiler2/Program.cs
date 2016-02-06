@@ -12,6 +12,8 @@ using Compiler2.Compiler.ExternalResolver;
 using Compiler2.Compiler.Binary;
 using Compiler2.Compiler.Dummy;
 using Compiler2.Compiler.RepresentationalISA;
+using Compiler2.Dummy;
+using Compiler2.IR.Stages;
 
 namespace Compiler2
 {
@@ -20,11 +22,10 @@ namespace Compiler2
         private static ICompileStage<object> GetCompiler(CompilerSettings settings)
         {
             //var instructionEmitter = GetEmitter(settings);
+            var generator = new LinearIRGenerator(settings);
+            var constanthandler = new ConstantProcessor(settings);
 
             var instructionEmitter = new Compiler.Assembler.Amd64.Emitter();
-
-            var repisagen = new Dummy.RepIsaGenerator(settings);
-
             var binaryconverter = new BinaryConverter<Amd64Operation>(settings, instructionEmitter);
             var externalResolver = settings.ExecutableType == ExecutableType.PortableExecutable ? new WindowsResolver<Amd64Operation>(settings, instructionEmitter) : null;
             var orderer = new SectionOrderer(settings);
@@ -32,7 +33,8 @@ namespace Compiler2
             var physAddress = new PhysicalAddresser(settings);
             var exeWriter = settings.ExecutableType == ExecutableType.PortableExecutable ? new PeWriter(settings) : null;
 
-            repisagen.Next(binaryconverter);
+            generator.Next(constanthandler);
+            
             binaryconverter.Next(externalResolver);
 
             var before = externalResolver;
@@ -51,7 +53,7 @@ namespace Compiler2
             addresser.Next(physAddress);
             physAddress.Next(exeWriter);
 
-            return repisagen;
+            return generator;
         }
 
         /*private static InstructionEmitter GetEmitter<T>(CompilerSettings settings)

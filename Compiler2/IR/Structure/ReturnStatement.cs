@@ -19,5 +19,10 @@ namespace Compiler2.IR.Structure
         {
             Value = null;
         }
+
+        public override T Accept<T>(IRStatementVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

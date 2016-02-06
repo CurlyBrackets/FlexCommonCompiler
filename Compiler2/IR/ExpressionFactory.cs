@@ -22,6 +22,8 @@ namespace Compiler2.IR
         private Dictionary<string, List<Call>> m_calls;
         private TwoKeyDictionary<string, string, List<ExternalCall>> m_externalCalls;
 
+        private Dictionary<string, Label> m_labels;
+
         public ExpressionFactory()
         {
             m_floatConstantMap = new Dictionary<double, FloatConstant>();
@@ -33,6 +35,7 @@ namespace Compiler2.IR
             m_unaryMap = new TwoKeyDictionary<Operation, Expression, UnaryExpression>();
             m_calls = new Dictionary<string, List<Call>>();
             m_externalCalls = new TwoKeyDictionary<string, string, List<Structure.ExternalCall>>();
+            m_labels = new Dictionary<string, Label>();
         }
 
         public Constant Constant(long value)
@@ -75,6 +78,16 @@ namespace Compiler2.IR
             return ret;
         }
 
+        public Label Label(string label)
+        {
+            if (m_labels.ContainsKey(label))
+                return m_labels[label];
+
+            var ret = new Label(label);
+            m_labels.Add(label, ret);
+            return ret;
+        }
+
         public Parameter Parameter(int index)
         {
             if (m_parameters.ContainsKey(index))
@@ -107,13 +120,19 @@ namespace Compiler2.IR
 
         public Call Call(string name, params Expression[] args)
         {
+            return Call(name, args.ToList());
+        }
+
+        public Call Call(string name, IList<Expression> args)
+        {
             if (m_calls.ContainsKey(name))
             {
-                foreach(var call in m_calls[name])
+                foreach (var call in m_calls[name])
                 {
-                    if (ArgsSame(args, call.Arguments)) {
+                    if (ArgsSame(args, call.Arguments))
+                    {
                         return call;
-                    }    
+                    }
                 }
             }
 
@@ -148,12 +167,12 @@ namespace Compiler2.IR
             return ret;
         }
 
-        private bool ArgsSame(Expression[] args, IList<Expression> args2)
+        private bool ArgsSame(IList<Expression> args, IList<Expression> args2)
         {
-            if (args.Length != args2.Count)
+            if (args.Count != args2.Count)
                 return false;
 
-            for (int i = 0; i < args.Length; i++)
+            for (int i = 0; i < args.Count; i++)
             {
                 if (args[i] != args2[i])
                     return false;

@@ -177,7 +177,7 @@
     <Compile Include="IR\ExpressionFactory.cs" />
     <Compile Include="IR\IRProgram.cs" />
     <Compile Include="IR\IRVisitor.cs" />
-    <Compile Include="IR\Stages\ConstantHandler.cs" />
+    <Compile Include="IR\Stages\ConstantProcessor.cs" />
     <Compile Include="IR\StatementFactory.cs" />
     <Compile Include="IR\Structure\AssignableExpression.cs" />
     <Compile Include="IR\Structure\AssignStatement.cs" />
@@ -188,6 +188,7 @@
     <Compile Include="IR\Structure\ExpressionStatement.cs" />
     <Compile Include="IR\Structure\ExternalCall.cs" />
     <Compile Include="IR\Structure\FloatConstant.cs" />
+    <Compile Include="IR\Structure\Label.cs" />
     <Compile Include="IR\Structure\Operation.cs" />
     <Compile Include="IR\Structure\Parameter.cs" />
     <Compile Include="IR\Structure\ReturnStatement.cs" />

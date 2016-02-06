@@ -18,5 +18,10 @@ namespace Compiler2.IR.Structure
             Left = left;
             Right = right;
         }
+
+        public override T Accept<T>(IRExpressionVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

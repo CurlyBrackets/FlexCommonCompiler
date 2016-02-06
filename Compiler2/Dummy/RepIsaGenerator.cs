@@ -24,13 +24,13 @@ namespace Compiler2.Dummy
             var ret = new IntermediateProgram<Amd64Operation>();
 
             ret.Functions.Add("_start", GenerateStart());
-            ret.Functions.Add("Program::main", GenerateMain());
+            ret.Functions.Add("Program::main", GenerateMain(ret.Constants.Add("Hello world!\n")));
 
             ret.Functions.Add("Program::exit", GenerateExit());
             ret.Functions.Add("Program::GetStdHandle", GenerateGetStdHandle());
             ret.Functions.Add("Program::WriteFile", GenerateWriteFile());
 
-            ret.Constants.Add("Constant::String::0", "Hello world!\n");
+            
 
             return ret;
         }
@@ -106,7 +106,7 @@ namespace Compiler2.Dummy
             };
         }
 
-        private Function GenerateMain()
+        private Function GenerateMain(string stringConstant)
         {
             return new List<RepresentationalBase<Amd64Operation>>()
             { 
@@ -171,7 +171,7 @@ namespace Compiler2.Dummy
                     Amd64Operation.LoadAddress,
                     OperandFactory.Instance.Register(OperandType.ArgumentRegister, OperandSize.QWord, 1),
                     OperandFactory.Instance.Memory(OperandSize.QWord,
-                        OperandFactory.Instance.Address(OperandSize.DWord, "Constant::String::0"))),
+                        OperandFactory.Instance.Address(OperandSize.DWord, stringConstant))),
 
                 // mov rcx, rax
                 OperationFactory<Amd64Operation>.Instance.Binary(
