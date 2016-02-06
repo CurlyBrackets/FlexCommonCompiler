@@ -30,7 +30,7 @@ namespace Compiler2.Dummy
             ret.Functions.Add("Program::GetStdHandle", GenerateGetStdHandle());
             ret.Functions.Add("Program::WriteFile", GenerateWriteFile());
 
-            ret.StringConstants.Add("Constant::String::0", "Hello world!\n");
+            ret.Constants.Add("Constant::String::0", "Hello world!\n");
 
             return ret;
         }

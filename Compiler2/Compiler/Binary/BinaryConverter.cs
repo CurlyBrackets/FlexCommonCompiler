@@ -41,8 +41,20 @@ namespace Compiler2.Compiler.Binary
 
             var data = new List<AddressIndependentThing>();
 
-            // do numeric values first, then strings, then classes
-            foreach(var kvp in input.StringConstants)
+            // do numeric values first, then strings, then classes (?)
+            foreach(var kvp in input.Constants.IntegerConstants)
+            {
+                data.Add(new AddressIndependentLabel(kvp.Key));
+                data.AddRange(BitConverter.GetBytes(kvp.Value).Convert());
+            }
+
+            foreach (var kvp in input.Constants.FloatConstants)
+            {
+                data.Add(new AddressIndependentLabel(kvp.Key));
+                data.AddRange(BitConverter.GetBytes(kvp.Value).Convert());
+            }
+
+            foreach (var kvp in input.Constants.StringConstants)
             {
                 data.Add(new AddressIndependentLabel(kvp.Key));
                 var bytes = Encoding.ASCII.GetBytes(kvp.Value);

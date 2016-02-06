@@ -13,13 +13,12 @@ namespace Compiler2.Compiler
     {
         public IDictionary<string, IList<RepresentationalBase<T>>> Functions { get; private set; }
         
-        // constants?
-        public IDictionary<string, string> StringConstants { get; private set; }
+        public Common.ProgramConstants Constants { get; private set; }
 
-        public IntermediateProgram()
+        public IntermediateProgram(Common.ProgramConstants constants = null)
         {
             Functions = new Dictionary<string, IList<RepresentationalBase<T>>>();
-            StringConstants = new Dictionary<string, string>();
+            Constants = constants ?? new Common.ProgramConstants();
         }
     }
 }

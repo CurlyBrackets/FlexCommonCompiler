@@ -11,6 +11,7 @@ namespace Compiler2.IR
     class ExpressionFactory : SingletonFactoryBase<ExpressionFactory>
     {
         private Dictionary<long, Constant> m_constantMap;
+        private Dictionary<double, FloatConstant> m_floatConstantMap;
         private Dictionary<string, StringConstant> m_stringConstantMap;
 
         private ThreeKeyDictionary<Operation, Expression, Expression, BinaryExpression> m_binaryMap;
@@ -23,7 +24,7 @@ namespace Compiler2.IR
 
         public ExpressionFactory()
         {
-
+            m_floatConstantMap = new Dictionary<double, FloatConstant>();
             m_stringConstantMap = new Dictionary<string, StringConstant>();
             m_constantMap = new Dictionary<long, Constant>();
             m_binaryMap = new ThreeKeyDictionary<Operation, Expression, Expression, BinaryExpression>();
@@ -51,6 +52,16 @@ namespace Compiler2.IR
 
             var ret = new StringConstant(val);
             m_stringConstantMap.Add(val, ret);
+            return ret;
+        }
+
+        public FloatConstant Constant(double val)
+        {
+            if (m_floatConstantMap.ContainsKey(val))
+                return m_floatConstantMap[val];
+
+            var ret = new FloatConstant(val);
+            m_floatConstantMap.Add(val, ret);
             return ret;
         }
 

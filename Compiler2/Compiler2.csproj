@@ -128,6 +128,7 @@
     <Compile Include="AST\Statements\Using.cs" />
     <Compile Include="AST\Statements\While.cs" />
     <Compile Include="AST\Statements\Yield.cs" />
+    <Compile Include="Common\ProgramConstants.cs" />
     <Compile Include="CompilerSettings.cs" />
     <Compile Include="Compiler\Addresser.cs" />
     <Compile Include="Compiler\AddressIndependentFactory.cs" />
@@ -175,6 +176,8 @@
     <Compile Include="Dummy\RepIsaGenerator.cs" />
     <Compile Include="IR\ExpressionFactory.cs" />
     <Compile Include="IR\IRProgram.cs" />
+    <Compile Include="IR\IRVisitor.cs" />
+    <Compile Include="IR\Stages\ConstantHandler.cs" />
     <Compile Include="IR\StatementFactory.cs" />
     <Compile Include="IR\Structure\AssignableExpression.cs" />
     <Compile Include="IR\Structure\AssignStatement.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="IR\Structure\Expression.cs" />
     <Compile Include="IR\Structure\ExpressionStatement.cs" />
     <Compile Include="IR\Structure\ExternalCall.cs" />
+    <Compile Include="IR\Structure\FloatConstant.cs" />
     <Compile Include="IR\Structure\Operation.cs" />
     <Compile Include="IR\Structure\Parameter.cs" />
     <Compile Include="IR\Structure\ReturnStatement.cs" />
