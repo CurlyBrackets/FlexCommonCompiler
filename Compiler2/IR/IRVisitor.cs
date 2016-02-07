@@ -18,6 +18,8 @@ namespace Compiler2.IR
         T Visit(StringConstant constant);
         T Visit(Temporary temporary);
         T Visit(UnaryExpression expression);
+
+        T Visit(Register register);
     }
 
     interface IRStatementVisitor<T>

@@ -23,8 +23,7 @@ namespace Compiler2.IR.Stages
 
             foreach(var function in input.Functions)
             {
-                for (int i = 0; i < function.Value.Count; i++)
-                    function.Value[i] = function.Value[i].Accept(this);
+                function.Value.Transform((s) => s.Accept(this));
             }
 
             return input;
@@ -77,6 +76,11 @@ namespace Compiler2.IR.Stages
         public Expression Visit(Label label)
         {
             return label;
+        }
+
+        public Expression Visit(Register register)
+        {
+            return register;
         }
 
         public Expression Visit(Call call)
@@ -134,6 +138,8 @@ namespace Compiler2.IR.Stages
             return StatementFactory.Instance.Expression(
                 statement.Expression.Accept(this));
         }
+
+        
 
         #endregion
         #endregion

@@ -15,7 +15,6 @@ namespace Compiler2
     enum ISA
     {
         x86,
-        x86_64,
         ARM7
     }
 

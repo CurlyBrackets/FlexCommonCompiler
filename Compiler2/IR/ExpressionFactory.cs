@@ -23,6 +23,7 @@ namespace Compiler2.IR
         private TwoKeyDictionary<string, string, List<ExternalCall>> m_externalCalls;
 
         private Dictionary<string, Label> m_labels;
+        private TwoKeyDictionary<RegisterType, int, Register> m_registers;
 
         public ExpressionFactory()
         {
@@ -36,6 +37,7 @@ namespace Compiler2.IR
             m_calls = new Dictionary<string, List<Call>>();
             m_externalCalls = new TwoKeyDictionary<string, string, List<Structure.ExternalCall>>();
             m_labels = new Dictionary<string, Label>();
+            m_registers = new TwoKeyDictionary<RegisterType, int, Register>();
         }
 
         public Constant Constant(long value)
@@ -179,6 +181,16 @@ namespace Compiler2.IR
             }
 
             return true;
+        }
+
+        public Register Register(RegisterType type, int index = 0)
+        {
+            if (m_registers.ContainsKey(type, index))
+                return m_registers[type, index];
+
+            var ret = new Register(type, index);
+            m_registers[type, index] = ret;
+            return ret;
         }
     }
 }
