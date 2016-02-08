@@ -25,5 +25,12 @@ namespace Compiler2.IR
         {
             Functions.Add(name, new IRFunction(this, body));
         }
+
+        public IRFunction CreateFunction(string name)
+        {
+            var ret = new IRFunction(this);
+            Functions.Add(name, ret);
+            return ret;
+        }
     }
 }

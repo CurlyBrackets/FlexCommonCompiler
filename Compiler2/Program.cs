@@ -25,6 +25,7 @@ namespace Compiler2
             var generator = new LinearIRGenerator(settings);
             var setupStack = new SetupStackParameters(settings);
             var constanthandler = new ConstantProcessor(settings);
+            var argSanitizer = new ArgumentSanitizer(settings);
             var argLifter = new ArgumentLifter(settings);
             var stackAllocator = new StackAllocator(settings);
             var paramLifter = new ParameterLifter(settings);
@@ -39,7 +40,8 @@ namespace Compiler2
 
             generator.Next(setupStack);
             setupStack.Next(constanthandler);
-            constanthandler.Next(argLifter);
+            constanthandler.Next(argSanitizer);
+            argSanitizer.Next(argLifter);
             argLifter.Next(stackAllocator);
             stackAllocator.Next(paramLifter);
             paramLifter.Next(new IRPrinter(settings));

@@ -19,107 +19,104 @@ namespace Compiler2.Dummy
         {
             var ret = new IRProgram();
 
-            ret.AddFunction("_start", GenerateStart());
-            ret.AddFunction("Program::main", GenerateMain());
-            ret.AddFunction("Program::exit", GenerateExternalCall("ExitProcess", "KERNEL32.dll", 1));
-            ret.AddFunction("Program::GetStdHandle", GenerateExternalCall("GetStdHandle", "KERNEL32.dll", 1));
-            ret.AddFunction("Program::WriteFile", GenerateExternalCall("WriteFile", "KERNEL32.dll", 5));
+            GenerateStart(ret.CreateFunction("_start"));
+            GenerateMain(ret.CreateFunction("Program::main"));
+            GenerateExternalCall(ret.CreateFunction("Program::exit"), "ExitProcess", "KERNEL32.dll", 1);
+            GenerateExternalCall(ret.CreateFunction("Program::GetStdHandle"), "GetStdHandle", "KERNEL32.dll", 1);
+            GenerateExternalCall(ret.CreateFunction("Program::WriteFile"), "WriteFile", "KERNEL32.dll", 5);
 
             return ret;
         }
 
-        private List<Statement> GenerateStart()
+        private void GenerateStart(IRFunction func)
         {
-            return new List<Statement>()
-            {
+            func.AddToStart(
                 // t0 = 0 (NULL)
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(0),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant(0)),
                 // t1 = &t0
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(1),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Unary(
                         Operation.AddressOf,
-                        ExpressionFactory.Instance.Temporary(0))),
+                        ExpressionFactory.Instance.Temporary(1))),
                 // t2 = main(t1)
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(2),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Call(
                         "Program::main",
-                        ExpressionFactory.Instance.Temporary(1))),
+                        ExpressionFactory.Instance.Temporary(2))),
                 // exit(t2)
                 StatementFactory.Instance.Expression(
                     ExpressionFactory.Instance.Call(
                         "Program::exit",
-                        ExpressionFactory.Instance.Temporary(2))),
+                        ExpressionFactory.Instance.Temporary(3))),
                 // return
                 StatementFactory.Instance.Return()
-            };
+            );
         }
 
-        private List<Statement> GenerateExternalCall(string name, string module, int n)
+        private void GenerateExternalCall(IRFunction func, string name, string module, int n)
         {
             var args = new Expression[n];
             for (int i = 0; i < n; i++)
                 args[i] = ExpressionFactory.Instance.Parameter(i);
 
-            return new List<Statement>()
-            {
+            func.AddToStart(
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(0),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.ExternalCall(
                         name, module, args)),
 
                 StatementFactory.Instance.Return(
                     ExpressionFactory.Instance.Temporary(0))
-            };
+            );
         }
 
-        private List<Statement> GenerateMain()
+        private void GenerateMain(IRFunction func)
         {
-            return new List<Statement>()
-            {
+            func.AddToStart(
                 // t0 = -11
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(0),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant(-11)),
                 // t1 = GetStdHandle(t0)
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(1),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Call(
                         "Program::GetStdHandle",
-                        ExpressionFactory.Instance.Temporary(0))),
+                        ExpressionFactory.Instance.Temporary(1))),
                 // t2 = 0
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(2),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant(0)),
                 // t3 = 13
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(3),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant(13)),
                 // t4 = "Hello World\n"
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(4),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant("Hello world\n")),
                 // t5 = WriteFile(t1, t4, t3, t2, t2)
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(5),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Call(
                         "Program::WriteFile",
-                        ExpressionFactory.Instance.Temporary(1),
+                        ExpressionFactory.Instance.Temporary(2),
+                        ExpressionFactory.Instance.Temporary(5),
                         ExpressionFactory.Instance.Temporary(4),
                         ExpressionFactory.Instance.Temporary(3),
-                        ExpressionFactory.Instance.Temporary(2),
-                        ExpressionFactory.Instance.Temporary(2))),
+                        ExpressionFactory.Instance.Temporary(3))),
                 // t6 = 0
                 StatementFactory.Instance.Assignment(
-                    ExpressionFactory.Instance.Temporary(6),
+                    ExpressionFactory.Instance.Temporary(func.GetTempIndex()),
                     ExpressionFactory.Instance.Constant(0)),
                 // return t6
                 StatementFactory.Instance.Return(
-                    ExpressionFactory.Instance.Temporary(6))
-            };
+                    ExpressionFactory.Instance.Temporary(7))
+            );
         }
     }
 }

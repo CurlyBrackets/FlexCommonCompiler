@@ -14,7 +14,7 @@ namespace Compiler2.IR.Stages
         private Dictionary<Expression, bool> m_used;
         public int MaxStack { get; private set; }
 
-        public Statement Spare { get; set; }
+        public Statement After { get; set; }
 
         public ArgumentLifterVisitor(int argCount, int slotSize, int shadowSpace)
         {
@@ -31,7 +31,7 @@ namespace Compiler2.IR.Stages
             m_extraArgs.Clear();
             m_used.Clear();
             MaxStack = 0;
-            Spare = null;
+            After = null;
         }
 
         public override Expression Visit(Call call)
@@ -81,20 +81,24 @@ namespace Compiler2.IR.Stages
                 {
                     return StatementFactory.Instance.Assignment(
                         memoryExp,
-                        statement.Source);
+                        statement.Source.Accept(this));
                 }
                 else
                 {
-                    Spare = StatementFactory.Instance.Assignment(
+                    After = StatementFactory.Instance.Assignment(
                         memoryExp,
                         statement.Destination);
 
-                    return statement;
+                    return StatementFactory.Instance.Assignment(
+                        statement.Destination,
+                        statement.Source.Accept(this));
                 }
             }
             else
             {
-                return statement;
+                return StatementFactory.Instance.Assignment(
+                    statement.Destination,
+                    statement.Source.Accept(this));
             }
         }
 
@@ -131,14 +135,14 @@ namespace Compiler2.IR.Stages
 
                 for (int i = function.Body.Count - 1; i >= 0; i--)
                 {
-                    visitor.Spare = null;
+                    visitor.After = null;
                     function.Body[i] = function.Body[i].Accept(visitor);
-                    if (visitor.Spare != null)
-                        function.Body.Insert(i + 1, visitor.Spare);
+                    if (visitor.After != null)
+                        function.Body.Insert(i + 1, visitor.After);
                 }
 
                 if (visitor.MaxStack > function.StackSpace - input.ShadowSpace)
-                    function.IncreaseStack(visitor.MaxStack - function.StackSpace - input.ShadowSpace);
+                    function.IncreaseStack(visitor.MaxStack - (function.StackSpace - input.ShadowSpace));
             }
 
             return input;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Compiler2.IR
 {
@@ -21,12 +21,26 @@ namespace Compiler2.IR
             }
         }
 
+        private int m_tempIndex;
+
         public IRFunction(IRProgram program, IList<Statement> body)
         {
             Parent = program;
             Body = body;
 
             m_stack = 0;
+            m_tempIndex = 0;
+        }
+
+        public IRFunction(IRProgram program)
+            : this(program, new List<Statement>())
+        {
+
+        }
+
+        public int GetTempIndex()
+        {
+            return Interlocked.Increment(ref m_tempIndex);
         }
 
         public void IncreaseStack(int amount)
