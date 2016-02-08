@@ -21,13 +21,6 @@ namespace Compiler2.IR.Stages
 
         protected override IRProgram ProcessCore(IRProgram input)
         {
-            if( Settings.ISA == ISA.x86 && 
-                Settings.ExecutableType == ExecutableType.PortableExecutable &&
-                Settings.Is64Bit)
-            {
-                input.ShadowSpace = 32;
-            }
-
             foreach(var function in input.Functions.Values)
             {
                 function.AddToStart(

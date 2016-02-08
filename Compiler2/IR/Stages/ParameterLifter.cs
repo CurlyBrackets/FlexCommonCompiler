@@ -51,51 +51,15 @@ namespace Compiler2.IR.Stages
     /// </summary>
     class ParameterLifter : CompileStage<IRProgram, IRProgram>
     {
-        private int ArgCount;
-        private int SlotSize;
-
         public ParameterLifter(CompilerSettings settings)
             : base(settings)
         {
-            if(settings.ExecutableType == ExecutableType.PortableExecutable)
-            {
-                if (settings.Is64Bit)
-                {
-                    // Windows x86_64
-                    ArgCount = 4;
-                }
-                else
-                {
-                    // stdcall maybe?
-                    ArgCount = 0;
-                }
-            }
-            else
-            {
-                if (settings.Is64Bit)
-                {
-                    // System V ABI
-                    ArgCount = 6;
-                }
-                else
-                {
-                    ArgCount = 0;
-                }
-            }
-
-            if (settings.Is64Bit)
-            {
-                SlotSize = 8;
-            }
-            else
-            {
-                SlotSize = 4;
-            }
+            
         }
 
         protected override IRProgram ProcessCore(IRProgram input)
         {
-            var visitor = new ParameterLifterVisitor(ArgCount, SlotSize, input.ShadowSpace);
+            var visitor = new ParameterLifterVisitor(input.ArgCount, input.SlotSize, input.ShadowSpace);
 
             foreach(var func in input.Functions.Values)
             {

@@ -182,6 +182,7 @@
     <Compile Include="IR\Stages\ArgumentLifter.cs" />
     <Compile Include="IR\Stages\ConstantProcessor.cs" />
     <Compile Include="IR\Stages\ParameterLifter.cs" />
+    <Compile Include="IR\Stages\SetupStackParameters.cs" />
     <Compile Include="IR\Stages\StackAllocator.cs" />
     <Compile Include="IR\StatementFactory.cs" />
     <Compile Include="IR\Structure\AssignableExpression.cs" />

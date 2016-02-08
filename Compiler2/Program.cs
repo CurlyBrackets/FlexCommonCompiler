@@ -23,7 +23,11 @@ namespace Compiler2
         {
             //var instructionEmitter = GetEmitter(settings);
             var generator = new LinearIRGenerator(settings);
+            var setupStack = new SetupStackParameters(settings);
             var constanthandler = new ConstantProcessor(settings);
+            var argLifter = new ArgumentLifter(settings);
+            var stackAllocator = new StackAllocator(settings);
+            var paramLifter = new ParameterLifter(settings);
 
             var instructionEmitter = new Compiler.Assembler.Amd64.Emitter();
             var binaryconverter = new BinaryConverter<Amd64Operation>(settings, instructionEmitter);
@@ -33,7 +37,11 @@ namespace Compiler2
             var physAddress = new PhysicalAddresser(settings);
             var exeWriter = settings.ExecutableType == ExecutableType.PortableExecutable ? new PeWriter(settings) : null;
 
-            generator.Next(constanthandler);
+            generator.Next(setupStack);
+            setupStack.Next(constanthandler);
+            constanthandler.Next(argLifter);
+            argLifter.Next(stackAllocator);
+            stackAllocator.Next(paramLifter);
             
             binaryconverter.Next(externalResolver);
 

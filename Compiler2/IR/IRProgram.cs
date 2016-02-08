@@ -12,7 +12,9 @@ namespace Compiler2.IR
         public Common.ProgramConstants Constants { get; private set; }
 
         public int ShadowSpace { get; set; }
-        
+        public int ArgCount { get; set; }
+        public int SlotSize { get; set; }
+
         public IRProgram()
         {
             Functions = new Dictionary<string, IRFunction>();
