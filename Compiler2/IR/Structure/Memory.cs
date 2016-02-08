@@ -15,7 +15,7 @@ namespace Compiler2.IR.Structure
             Target = target;
         }
 
-        public T Accept<T>(IRExpressionVisitor<T> visitor)
+        public E Accept<E, S>(IRVisitor<E, S> visitor)
         {
             return visitor.Visit(this);
         }

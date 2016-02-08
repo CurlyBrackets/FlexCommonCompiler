@@ -38,7 +38,7 @@ namespace Compiler2.IR
         {
             for(int i = statements.Length-1; i >= 0; i--)
             {
-                Body.Insert(1, statements[i]);
+                Body.Insert(0, statements[i]);
             }
         }
 

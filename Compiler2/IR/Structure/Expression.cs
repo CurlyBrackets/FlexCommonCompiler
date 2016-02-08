@@ -8,6 +8,6 @@ namespace Compiler2.IR.Structure
 {
     interface Expression
     {
-        T Accept<T>(IRExpressionVisitor<T> visitor);
+        E Accept<E, S>(IRVisitor<E, S> visitor);
     }
 }

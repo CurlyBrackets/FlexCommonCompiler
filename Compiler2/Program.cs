@@ -42,6 +42,7 @@ namespace Compiler2
             constanthandler.Next(argLifter);
             argLifter.Next(stackAllocator);
             stackAllocator.Next(paramLifter);
+            paramLifter.Next(new IRPrinter(settings));
             
             binaryconverter.Next(externalResolver);
 

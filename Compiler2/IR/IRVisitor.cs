@@ -7,29 +7,26 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR
 {
-    interface IRExpressionVisitor<T>
+    abstract class IRVisitor<T, T2>
     {
-        T Visit(BinaryExpression expression);
-        T Visit(Call call);
-        T Visit(Constant constant);
-        T Visit(FloatConstant constant);
-        T Visit(Label label);
-        T Visit(Parameter parameter);
-        T Visit(StringConstant constant);
-        T Visit(Temporary temporary);
-        T Visit(UnaryExpression expression);
+        public abstract T Visit(BinaryExpression expression);
+        public abstract T Visit(Call call);
+        public abstract T Visit(Constant constant);
+        public abstract T Visit(FloatConstant constant);
+        public abstract T Visit(Label label);
+        public abstract T Visit(Parameter parameter);
+        public abstract T Visit(StringConstant constant);
+        public abstract T Visit(Temporary temporary);
+        public abstract T Visit(UnaryExpression expression);
 
-        T Visit(Register register);
-        T Visit(Memory memory);
-        T Visit(Offset offset);
+        public abstract T Visit(Register register);
+        public abstract T Visit(Memory memory);
+        public abstract T Visit(Offset offset);
 
-        T Visit(Pop pop);
-    }
+        public abstract T Visit(Pop pop);
 
-    interface IRStatementVisitor<T>
-    {
-        T Visit(AssignStatement statement);
-        T Visit(ExpressionStatement statement);
-        T Visit(ReturnStatement statement);
+        public abstract T2 Visit(AssignStatement statement);
+        public abstract T2 Visit(ExpressionStatement statement);
+        public abstract T2 Visit(ReturnStatement statement);
     }
 }

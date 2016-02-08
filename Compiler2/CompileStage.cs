@@ -28,6 +28,10 @@ namespace Compiler2
             var o = ProcessCore(input);
             if (m_next != null)
                 m_next.Process(o);
+            else if(o is string)
+            {
+                Console.WriteLine(o);
+            }
         }
 
         public void Next(ICompileStage<Out> next)

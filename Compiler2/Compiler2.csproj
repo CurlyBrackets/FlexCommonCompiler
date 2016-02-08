@@ -179,8 +179,10 @@
     <Compile Include="IR\IRFunction.cs" />
     <Compile Include="IR\IRProgram.cs" />
     <Compile Include="IR\IRVisitor.cs" />
+    <Compile Include="IR\Stages\ArgumentAllocator.cs" />
     <Compile Include="IR\Stages\ArgumentLifter.cs" />
     <Compile Include="IR\Stages\ConstantProcessor.cs" />
+    <Compile Include="IR\Stages\IRPrinter.cs" />
     <Compile Include="IR\Stages\ParameterLifter.cs" />
     <Compile Include="IR\Stages\SetupStackParameters.cs" />
     <Compile Include="IR\Stages\StackAllocator.cs" />

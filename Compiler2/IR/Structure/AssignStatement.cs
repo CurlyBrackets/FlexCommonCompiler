@@ -17,7 +17,7 @@ namespace Compiler2.IR.Structure
             Source = src;
         }
 
-        public override T Accept<T>(IRStatementVisitor<T> visitor)
+        public override S Accept<E, S>(IRVisitor<E, S> visitor)
         {
             return visitor.Visit(this);
         }

@@ -8,6 +8,6 @@ namespace Compiler2.IR.Structure
 {
     abstract class Statement
     {
-        public abstract T Accept<T>(IRStatementVisitor<T> visitor);
+        public abstract S Accept<E, S>(IRVisitor<E, S> visitor);
     }
 }

@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR
 {
-    abstract class IRDefaultVisitor : IRExpressionVisitor<Expression>, IRStatementVisitor<Statement>
+    abstract class IRDefaultVisitor : IRVisitor<Expression, Statement>
     {
-        public virtual Expression Visit(Constant constant)
+        public override Expression Visit(Constant constant)
         {
             return constant;
         }
 
-        public virtual Expression Visit(Label label)
+        public override Expression Visit(Label label)
         {
             return label;
         }
 
-        public virtual Expression Visit(StringConstant constant)
+        public override Expression Visit(StringConstant constant)
         {
             return constant;
         }
 
-        public virtual Expression Visit(UnaryExpression expression)
+        public override Expression Visit(UnaryExpression expression)
         {
             return ExpressionFactory.Instance.Unary(
                 expression.Operation,
                 expression.Expression.Accept(this));
         }
 
-        public virtual Expression Visit(Memory memory)
+        public override Expression Visit(Memory memory)
         {
             var transformed = memory.Target.Accept(this);
             if (!(transformed is IMemoryExpression))
@@ -41,39 +41,39 @@ namespace Compiler2.IR
                 (IMemoryExpression)transformed);
         }
 
-        public virtual Expression Visit(Offset offset)
+        public override Expression Visit(Offset offset)
         {
             return ExpressionFactory.Instance.Offset(
                 (Register)offset.Base.Accept(this),
                 (Constant)offset.Displacement.Accept(this));
         }
 
-        public virtual Expression Visit(Register register)
+        public override Expression Visit(Register register)
         {
             return register;
         }
 
-        public Expression Visit(Pop pop)
+        public override Expression Visit(Pop pop)
         {
             return pop;
         }
 
-        public virtual Expression Visit(Temporary temporary)
+        public override Expression Visit(Temporary temporary)
         {
             return temporary;
         }
 
-        public virtual Expression Visit(Parameter parameter)
+        public override Expression Visit(Parameter parameter)
         {
             return parameter;
         }
 
-        public virtual Expression Visit(FloatConstant constant)
+        public override Expression Visit(FloatConstant constant)
         {
             return constant;
         }
 
-        public virtual Expression Visit(Call call)
+        public override Expression Visit(Call call)
         {
             var args = new List<Expression>();
 
@@ -85,7 +85,7 @@ namespace Compiler2.IR
                 args);
         }
 
-        public virtual Expression Visit(BinaryExpression expression)
+        public override Expression Visit(BinaryExpression expression)
         {
             return ExpressionFactory.Instance.Binary(
                 expression.Operation,
@@ -93,14 +93,14 @@ namespace Compiler2.IR
                 expression.Right.Accept(this));
         }
 
-        public virtual Statement Visit(AssignStatement statement)
+        public override Statement Visit(AssignStatement statement)
         {
             return StatementFactory.Instance.Assignment(
                 statement.Destination,
                 statement.Source.Accept(this));
         }
 
-        public virtual Statement Visit(ReturnStatement statement)
+        public override Statement Visit(ReturnStatement statement)
         {
             if (statement.Value != null)
             {
@@ -113,7 +113,7 @@ namespace Compiler2.IR
             }
         }
 
-        public virtual Statement Visit(ExpressionStatement statement)
+        public override Statement Visit(ExpressionStatement statement)
         {
             return StatementFactory.Instance.Expression(
                 statement.Expression.Accept(this));
