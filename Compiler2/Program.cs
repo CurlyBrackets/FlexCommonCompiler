@@ -29,6 +29,7 @@ namespace Compiler2
             var argLifter = new ArgumentLifter(settings);
             var stackAllocator = new StackAllocator(settings);
             var paramLifter = new ParameterLifter(settings);
+            var memoryAssExpander = new MemoryAssignmentExpander(settings);
 
             var instructionEmitter = new Compiler.Assembler.Amd64.Emitter();
             var binaryconverter = new BinaryConverter<Amd64Operation>(settings, instructionEmitter);
@@ -44,7 +45,8 @@ namespace Compiler2
             argSanitizer.Next(argLifter);
             argLifter.Next(stackAllocator);
             stackAllocator.Next(paramLifter);
-            paramLifter.Next(new IRPrinter(settings));
+            paramLifter.Next(memoryAssExpander);
+            memoryAssExpander.Next(new IRPrinter(settings));
             
             binaryconverter.Next(externalResolver);
 

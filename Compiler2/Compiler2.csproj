@@ -184,6 +184,7 @@
     <Compile Include="IR\Stages\ArgumentSanitizer.cs" />
     <Compile Include="IR\Stages\ConstantProcessor.cs" />
     <Compile Include="IR\Stages\IRPrinter.cs" />
+    <Compile Include="IR\Stages\MemoryAssignmentExpander.cs" />
     <Compile Include="IR\Stages\ParameterLifter.cs" />
     <Compile Include="IR\Stages\SetupStackParameters.cs" />
     <Compile Include="IR\Stages\StackAllocator.cs" />
