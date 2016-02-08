@@ -64,10 +64,10 @@ namespace Compiler2.Compiler.Executables
             switch (Settings.ISA)
             {
                 case ISA.x86:
-                    Writer.Write((ushort)0x14c);
-                    break;
-                case ISA.x86_64:
-                    Writer.Write((ushort)0x8664);
+                    if(!Settings.Is64Bit)
+                        Writer.Write((ushort)0x14c);
+                    else
+                        Writer.Write((ushort)0x8664);
                     break;
                 case ISA.ARM7:
                     Writer.Write((ushort)0x1c4);

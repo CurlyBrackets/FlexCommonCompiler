@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    interface Expression
+    interface IMemoryExpression : Expression
     {
-        T Accept<T>(IRExpressionVisitor<T> visitor);
     }
 }

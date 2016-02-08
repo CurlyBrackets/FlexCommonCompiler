@@ -81,7 +81,7 @@ namespace Compiler2
             {
                 Is64Bit = true,
                 ExecutableType = ExecutableType.PortableExecutable,
-                ISA = ISA.x86_64,
+                ISA = ISA.x86,
                 Output = "aout.exe"
             };
 

@@ -175,11 +175,13 @@
     <Compile Include="Dummy\LinearIRGenerator.cs" />
     <Compile Include="Dummy\RepIsaGenerator.cs" />
     <Compile Include="IR\ExpressionFactory.cs" />
+    <Compile Include="IR\IRDefaultVisitor.cs" />
     <Compile Include="IR\IRFunction.cs" />
     <Compile Include="IR\IRProgram.cs" />
     <Compile Include="IR\IRVisitor.cs" />
     <Compile Include="IR\Stages\ArgumentLifter.cs" />
     <Compile Include="IR\Stages\ConstantProcessor.cs" />
+    <Compile Include="IR\Stages\ParameterLifter.cs" />
     <Compile Include="IR\Stages\StackAllocator.cs" />
     <Compile Include="IR\StatementFactory.cs" />
     <Compile Include="IR\Structure\AssignableExpression.cs" />
@@ -191,9 +193,13 @@
     <Compile Include="IR\Structure\ExpressionStatement.cs" />
     <Compile Include="IR\Structure\ExternalCall.cs" />
     <Compile Include="IR\Structure\FloatConstant.cs" />
+    <Compile Include="IR\Structure\IMemoryExpression.cs" />
     <Compile Include="IR\Structure\Label.cs" />
+    <Compile Include="IR\Structure\Memory.cs" />
+    <Compile Include="IR\Structure\Offset.cs" />
     <Compile Include="IR\Structure\Operation.cs" />
     <Compile Include="IR\Structure\Parameter.cs" />
+    <Compile Include="IR\Structure\Pop.cs" />
     <Compile Include="IR\Structure\Register.cs" />
     <Compile Include="IR\Structure\RegisterType.cs" />
     <Compile Include="IR\Structure\ReturnStatement.cs" />

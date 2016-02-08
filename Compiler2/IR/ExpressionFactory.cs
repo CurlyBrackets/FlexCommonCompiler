@@ -25,6 +25,11 @@ namespace Compiler2.IR
         private Dictionary<string, Label> m_labels;
         private TwoKeyDictionary<RegisterType, int, Register> m_registers;
 
+        private TwoKeyDictionary<Register, Constant, Offset> m_offsetMap;
+        private Dictionary<IMemoryExpression, Memory> m_memoryMap;
+
+        private Pop m_pop;
+
         public ExpressionFactory()
         {
             m_floatConstantMap = new Dictionary<double, FloatConstant>();
@@ -38,6 +43,9 @@ namespace Compiler2.IR
             m_externalCalls = new TwoKeyDictionary<string, string, List<Structure.ExternalCall>>();
             m_labels = new Dictionary<string, Label>();
             m_registers = new TwoKeyDictionary<RegisterType, int, Register>();
+            m_offsetMap = new TwoKeyDictionary<Register, Constant, Offset>();
+            m_memoryMap = new Dictionary<IMemoryExpression, Memory>();
+            m_pop = new Pop();
         }
 
         public Constant Constant(long value)
@@ -191,6 +199,31 @@ namespace Compiler2.IR
             var ret = new Register(type, index);
             m_registers[type, index] = ret;
             return ret;
+        }
+
+        public Offset Offset(Register register, Constant constant)
+        {
+            if (m_offsetMap.ContainsKey(register, constant))
+                return m_offsetMap[register, constant];
+
+            var ret = new Offset(register, constant);
+            m_offsetMap[register, constant] = ret;
+            return ret;
+        }
+
+        public Memory Memory(IMemoryExpression exp)
+        {
+            if (m_memoryMap.ContainsKey(exp))
+                return m_memoryMap[exp];
+
+            var ret = new Memory(exp);
+            m_memoryMap.Add(exp, ret);
+            return ret;
+        }
+
+        public Pop Pop()
+        {
+            return m_pop;
         }
     }
 }

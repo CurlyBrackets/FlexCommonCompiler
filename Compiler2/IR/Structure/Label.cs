@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    class Label : Expression
+    class Label : Expression, IMemoryExpression
     {
         public string Key { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Compiler2.IR.Structure
             Key = key;
         }
 
-        public override T Accept<T>(IRExpressionVisitor<T> visitor)
+        public T Accept<T>(IRExpressionVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

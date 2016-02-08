@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    class Register : AssignableExpression, IMemoryExpression
+    class Offset : IMemoryExpression
     {
-        public RegisterType Type { get; private set; }
-        public int Index { get; private set; }
+        public Register Base { get; private set; }
+        public Constant Displacement { get; private set; }
 
-        public Register(RegisterType type, int index = 0)
+        public Offset(Register @base, Constant displacement)
         {
-            Type = type;
-            Index = index;
+            Base = @base;
+            Displacement = displacement;
         }
 
         public T Accept<T>(IRExpressionVisitor<T> visitor)

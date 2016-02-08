@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    abstract class AssignableExpression : Expression
+    interface AssignableExpression : Expression
     {
     }
 }

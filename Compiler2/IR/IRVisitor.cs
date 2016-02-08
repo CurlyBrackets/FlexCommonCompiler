@@ -20,6 +20,10 @@ namespace Compiler2.IR
         T Visit(UnaryExpression expression);
 
         T Visit(Register register);
+        T Visit(Memory memory);
+        T Visit(Offset offset);
+
+        T Visit(Pop pop);
     }
 
     interface IRStatementVisitor<T>

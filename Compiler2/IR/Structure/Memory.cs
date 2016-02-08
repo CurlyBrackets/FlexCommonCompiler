@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    class Register : AssignableExpression, IMemoryExpression
+    class Memory : AssignableExpression
     {
-        public RegisterType Type { get; private set; }
-        public int Index { get; private set; }
+        public IMemoryExpression Target { get; private set; }
 
-        public Register(RegisterType type, int index = 0)
+        public Memory(IMemoryExpression target)
         {
-            Type = type;
-            Index = index;
+            Target = target;
         }
 
         public T Accept<T>(IRExpressionVisitor<T> visitor)

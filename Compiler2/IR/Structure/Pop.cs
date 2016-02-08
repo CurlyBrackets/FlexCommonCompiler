@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Structure
 {
-    class Register : AssignableExpression, IMemoryExpression
+    class Pop : Expression
     {
-        public RegisterType Type { get; private set; }
-        public int Index { get; private set; }
-
-        public Register(RegisterType type, int index = 0)
+        public Pop()
         {
-            Type = type;
-            Index = index;
+
         }
 
         public T Accept<T>(IRExpressionVisitor<T> visitor)
