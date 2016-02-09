@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Compiler2.IR.Stages
 {
-    class ArgumentAllocator : CompileStage<IRProgram, IRProgram>
+    class ArgumentRegisterAllocatorVisitor : IRDefaultVisitor
     {
-        public ArgumentAllocator(CompilerSettings settings)
+
+    }
+
+    class ArgumentRegisterAllocator : CompileStage<IRProgram, IRProgram>
+    {
+        public ArgumentRegisterAllocator(CompilerSettings settings)
             : base(settings)
         {
 

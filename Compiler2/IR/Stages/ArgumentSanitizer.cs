@@ -26,7 +26,7 @@ namespace Compiler2.IR.Stages
 
             foreach(var arg in call.Arguments)
             {
-                if(newArgs.Count >= m_argCount)
+                if(newArgs.Count >= m_argCount || !(arg is Temporary))
                 {
                     int index = Func.GetTempIndex();
 

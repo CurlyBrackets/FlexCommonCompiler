@@ -19,10 +19,34 @@ namespace Compiler2
 {
     class Entry
     {
+        private static ICompileStage<object> Generate(CompilerSettings settings, params Type[] components)
+        {
+            ICompileStage<object> ret = null;
+            object last = null;
+
+            foreach(var type in components)
+            {
+                var stage = Activator.CreateInstance(type, settings);
+                if (ret == null)
+                    ret = (ICompileStage<object>)stage;
+                else
+                {
+                    var mi = last.GetType().GetMethod("Next");
+                    mi.Invoke(last, new object[] { stage });
+                }
+                
+
+                last = stage;
+            }
+
+            return ret;
+        }
+
         private static ICompileStage<object> GetCompiler(CompilerSettings settings)
         {
+            #region old
             //var instructionEmitter = GetEmitter(settings);
-            var generator = new LinearIRGenerator(settings);
+            /*var generator = new LinearIRGenerator(settings);
             var setupStack = new SetupStackParameters(settings);
             var constanthandler = new ConstantProcessor(settings);
             var argSanitizer = new ArgumentSanitizer(settings);
@@ -51,7 +75,7 @@ namespace Compiler2
             binaryconverter.Next(externalResolver);
 
             var before = externalResolver;
-            var after = orderer;
+            var after = orderer;*/
 
             /*if(settings.ExecutableType == ExecutableType.PortableExecutable)
             {
@@ -60,13 +84,25 @@ namespace Compiler2
                 before.Next(rsrcEmitter);
                 rsrcEmitter.Next(after);
             }*/
-            before.Next(after);
+            /*before.Next(after);
 
             orderer.Next(addresser);
             addresser.Next(physAddress);
             physAddress.Next(exeWriter);
 
-            return generator;
+            return generator;*/
+            #endregion
+
+            return Generate(settings,
+                typeof(LinearIRGenerator),
+                typeof(SetupStackParameters),
+                typeof(ConstantProcessor),
+                typeof(ArgumentSanitizer),
+                typeof(ArgumentLifter),
+                typeof(StackAllocator),
+                typeof(ParameterLifter),
+                typeof(MemoryAssignmentExpander),
+                typeof(IRPrinter));
         }
 
         /*private static InstructionEmitter GetEmitter<T>(CompilerSettings settings)

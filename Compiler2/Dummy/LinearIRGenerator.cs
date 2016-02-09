@@ -70,7 +70,7 @@ namespace Compiler2.Dummy
                         name, module, args)),
 
                 StatementFactory.Instance.Return(
-                    ExpressionFactory.Instance.Temporary(0))
+                    ExpressionFactory.Instance.Temporary(1))
             );
         }
 
