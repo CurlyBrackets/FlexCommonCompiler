@@ -102,6 +102,7 @@ namespace Compiler2
                 typeof(StackAllocator),
                 typeof(ParameterLifter),
                 typeof(MemoryAssignmentExpander),
+                typeof(LivelinessGraphGenerator),
                 typeof(IRPrinter));
         }
 

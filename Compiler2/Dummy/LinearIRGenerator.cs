@@ -72,6 +72,8 @@ namespace Compiler2.Dummy
                 StatementFactory.Instance.Return(
                     ExpressionFactory.Instance.Temporary(1))
             );
+
+            
         }
 
         private void GenerateMain(IRFunction func)

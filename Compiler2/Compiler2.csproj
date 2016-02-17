@@ -179,12 +179,14 @@
     <Compile Include="IR\IRFunction.cs" />
     <Compile Include="IR\IRProgram.cs" />
     <Compile Include="IR\IRVisitor.cs" />
+    <Compile Include="IR\LivenessGraph.cs" />
     <Compile Include="IR\Stages\ArgumentRegisterAllocator.cs" />
     <Compile Include="IR\Stages\ArgumentLifter.cs" />
     <Compile Include="IR\Stages\ArgumentSanitizer.cs" />
     <Compile Include="IR\Stages\ConstantProcessor.cs" />
     <Compile Include="IR\Stages\DestructiveOperationHandler.cs" />
     <Compile Include="IR\Stages\IRPrinter.cs" />
+    <Compile Include="IR\Stages\LivelinessGraphGenerator.cs" />
     <Compile Include="IR\Stages\MemoryAssignmentExpander.cs" />
     <Compile Include="IR\Stages\ParameterLifter.cs" />
     <Compile Include="IR\Stages\SetupStackParameters.cs" />

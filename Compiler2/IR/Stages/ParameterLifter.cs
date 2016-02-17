@@ -40,9 +40,10 @@ namespace Compiler2.IR.Stages
             }
             else
             {
-                return ExpressionFactory.Instance.Register(
+                /*return ExpressionFactory.Instance.Register(
                     RegisterType.Parameter,
-                    parameter.Index);
+                    parameter.Index);*/
+                return parameter;
             }
         }
     }
